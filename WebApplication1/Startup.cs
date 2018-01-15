@@ -41,7 +41,7 @@ namespace WebApplication1
             //accessing static files, such as HTML etc
             app.UseStaticFiles();
 
-            //a
+            
             app.UseDefaultFiles();
 
 

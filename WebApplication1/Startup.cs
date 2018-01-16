@@ -18,6 +18,7 @@ namespace WebApplication1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IGreeter, Greeter>();
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,9 +42,8 @@ namespace WebApplication1
             //accessing static files, such as HTML etc
             app.UseStaticFiles();
 
-            
-            app.UseDefaultFiles();
-
+            //app.UseDefaultFiles();
+            app.UseMvcWithDefaultRoute();
 
             app.Run(async (context) =>
             {

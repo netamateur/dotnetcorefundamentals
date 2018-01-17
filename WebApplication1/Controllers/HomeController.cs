@@ -1,15 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
+using WebApplication1.Models;
+using WebApplication1.Services;
 
 namespace WebApplication1.Controllers
 {
-    public class HomeController
+    public class HomeController : Controller
     {
-        public string Index()
+        private IRestaurantData _restaurantData;
+
+        public HomeController(IRestaurantData restaurantData)
         {
-            return "Hello from the Home Controller";
+            _restaurantData = restaurantData;
+        }
+        public IActionResult Index()
+        {
+            var model = _restaurantData.GetAll();
+
+            //returns object in json
+            //return new ObjectResult(model);
+
+            return View(model);
+
+            //return Content("Hello from the Home Controller");
         }
     }
 }

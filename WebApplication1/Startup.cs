@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Routing;
+using WebApplication1.Services;
 
 namespace WebApplication1
 {
@@ -18,6 +20,7 @@ namespace WebApplication1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IGreeter, Greeter>();
+            services.AddScoped<IRestaurantData, InMemoryRestaurantData>();
             services.AddMvc();
         }
 
@@ -43,7 +46,9 @@ namespace WebApplication1
             app.UseStaticFiles();
 
             //app.UseDefaultFiles();
-            app.UseMvcWithDefaultRoute();
+            //app.UseMvcWithDefaultRoute();
+
+            app.UseMvc(ConfigureRoutes);
 
             app.Run(async (context) =>
             {
@@ -53,6 +58,13 @@ namespace WebApplication1
                 //var greeting = configuration["Greeting"];
                 await context.Response.WriteAsync($"{greeting} : {env.EnvironmentName}");
             });
+        }
+
+        private void ConfigureRoutes(IRouteBuilder routeBuilder)
+        {
+            //map Route - determines what controller should be instantiated.
+            routeBuilder.MapRoute("Default", 
+                "{controller=Home}/{action=Index}/{id?}");
         }
     }
 }

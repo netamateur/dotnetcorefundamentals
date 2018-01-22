@@ -29,5 +29,18 @@ namespace WebApplication1.Controllers
 
             //return Content("Hello from the Home Controller");
         }
+
+        public IActionResult Details(int id)
+        {
+            var model = _restaurantData.Get(id);
+
+            if (model == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(model);
+
+        }
     }
 }

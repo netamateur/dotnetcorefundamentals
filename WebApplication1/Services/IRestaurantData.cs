@@ -9,5 +9,6 @@ namespace WebApplication1.Services
     public interface IRestaurantData
     {
         IEnumerable<Restaurant> GetAll();
+        Restaurant Get(int id);
     }
 }

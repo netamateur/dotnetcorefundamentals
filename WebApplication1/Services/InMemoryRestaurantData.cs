@@ -23,6 +23,11 @@ namespace WebApplication1.Services
             return _restaurants.OrderBy(r => r.Name);
         }
 
+        public Restaurant Get(int id)
+        {
+            return _restaurants.FirstOrDefault(r => r.Id == id);
+        }
+
         //abstraction - note: List is not thread safe.
         List<Restaurant> _restaurants;
     }

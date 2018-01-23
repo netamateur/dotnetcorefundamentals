@@ -10,19 +10,32 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Routing;
 using WebApplication1.Services;
+using WebApplication1.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication1
 {
     public class Startup
     {
+        private IConfiguration _configuration;
+
+        public Startup(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IGreeter, Greeter>();
+
+            services.AddDbContext<OdeToFoodDbContext>(
+                options => options.UseSqlServer(_configuration.GetConnectionString("OdeToFood")));
+            
             //singleton only works in dev
             //scoped wouldn't work with new data
-            services.AddSingleton<IRestaurantData, InMemoryRestaurantData>();
+            services.AddScoped<IRestaurantData, SqlRestaurantData>();
+
             services.AddMvc();
         }
 

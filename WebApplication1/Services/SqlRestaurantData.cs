@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,7 +22,6 @@ namespace WebApplication1.Services
             //simple approach, the savechanges can be moved out
             _context.SaveChanges();
             return restaurant;
-
         }
 
         public Restaurant Get(int id)
@@ -32,6 +32,13 @@ namespace WebApplication1.Services
         public IEnumerable<Restaurant> GetAll()
         {
            return _context.Restaurants.OrderBy(r => r.Name);
+        }
+
+        public Restaurant Update(Restaurant restaurant)
+        {
+            _context.Attach(restaurant).State = EntityState.Modified;
+            _context.SaveChanges();
+            return restaurant;
         }
     }
 }
